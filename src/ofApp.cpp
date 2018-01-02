@@ -4,6 +4,17 @@
 
 void ofApp::setup(){
     
+    ofSetVerticalSync(false);
+    ofBackground(0);
+    ofSetFrameRate(100); // if vertical sync is off, we can go a bit fast... this caps the framerate at 60fps.
+
+    
+    // Set viewports:
+//    viewport2D.x = 0; viewport2D.y = 0;
+//    viewport2D.width = ofGetWidth()/2; viewport2D.height = ofGetHeight();
+//    viewport3D.x = ofGetWidth()/2; viewport3D.y = 0;
+//    viewport3D.width = ofGetWidth()/2; viewport3D.height = ofGetHeight();
+    
     cam3D = false;
     
     ofSetCircleResolution(10);
@@ -12,11 +23,9 @@ void ofApp::setup(){
     
     // this uses depth information for occlusion
     // rather than always drawing things on top of each other
-    ofEnableDepthTest();
+    //ofEnableDepthTest();
     
     
-    ofBackground(0);
-    ofSetFrameRate(60); // if vertical sync is off, we can go a bit fast... this caps the framerate at 60fps.
     
     // Read XML file for setting configuration:
     // TO DO...
@@ -97,6 +106,9 @@ void ofApp::draw(){
     
         if (cam3D) { // mouse pressed
             
+//            drawViewportOutline(viewport3D);
+//            ofViewport(viewport3D);
+            
             // this sets the camera's distance from the object
             //cam.setDistance(1000);
             // cam.setAutoDistance(true);
@@ -107,13 +119,33 @@ void ofApp::draw(){
             ofScale(1, -1, 1); // flip the y axis and zoom in a bit
             ofTranslate(-ofGetWidth()/2,-ofGetHeight()/2,0);
     
+            
+            //ofDrawGrid(100);
+            ofDrawAxis(10);
+            
             Qbot::drawAll();
     
             cam.end();
         
         } else {
-            ofSetupScreenOrtho(ofGetWidth(),ofGetHeight(),
-                               -1E10, 1E4);
+            
+//            drawViewportOutline(viewport2D);
+//            ofViewport(viewport2D);
+            
+            //  Setup transform matrices for normal oF-style usage, i.e.
+            //  0,0=left,top
+            //  ofGetViewportWidth(),ofGetViewportHeight()=right,bottom
+            //ofSetupScreen();
+            
+            // Note: if we want these coordinates, but in orthographic projection, we need to do this instead:
+            ofSetupScreenOrtho(ofGetWidth(),ofGetHeight(), -1E10, 1E4);
+            
+            
+            //void ofDrawGrid(float stepSize, size_t numberOfSteps, bool labels, bool x, bool y, bool z) {
+            float stepgrid = 2*PI/Qbot::WAVENUMBER/10;
+            ofDrawGrid(stepgrid, ofGetWidth()/stepgrid);
+            //ofDrawAxis(10);
+            
             Qbot::drawAll();
 
             
@@ -191,7 +223,7 @@ void ofApp::keyPressed(int key){
             
             // Global control on evolution:
         case OF_KEY_RETURN:
-            Qbot::toggleClockState();
+            Qbot::toogleEvolution();
             //stopClock();
             break;
             
@@ -298,6 +330,20 @@ void ofApp::keyPressed(int key){
     // TO DO:
     //  * method to make a bot to toggle its emission mode;
     //  * ... and of course, many method to change parameters of emission or sensing (periodic sensing, random period sensing, synchronous sensing or not, different sampling rate, etc).
+}
+
+
+void ofApp::drawViewportOutline(const ofRectangle & viewport){
+    ofPushStyle();
+    ofFill();
+    ofSetColor(50);
+    ofSetLineWidth(0);
+    ofDrawRectangle(viewport);
+    ofNoFill();
+    ofSetColor(25);
+    ofSetLineWidth(1.0f);
+    ofDrawRectangle(viewport);
+    ofPopStyle();
 }
 
 //--------------------------------------------------------------

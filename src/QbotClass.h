@@ -12,7 +12,7 @@
 #define WITH_MASS // comment to use direct position update (no integration not mass).
     // IMPORTANT NOTE: when there is mass, the particle itself work as a "resonator" having a proper frequency. Otherwise, we need to introduce an arbitrary field sampling frequency.
 
-#define MAX_SPEED_FACTOR 0.2 //  maxParticleSpeed = MAX_SPEED_FACTOR*speedWave;
+#define MAX_SPEED_FACTOR 0.15 //  maxParticleSpeed = MAX_SPEED_FACTOR*speedWave;
 
 
 
@@ -24,6 +24,9 @@
 class Qbot {
     
 public:
+    
+    static const float OMEGA;// = 20.0; // in Hz
+    static const float WAVENUMBER;// = 3.0; // not exactly 2.PI/lambda, that would be in far field (circular propagating wave)
     
     enum ShapeQbot {SHAPE_HEXAGON, SHAPE_SQUARE, SHAPE_DISK};
     
@@ -50,6 +53,9 @@ public:
     void setEmissionMode(bool _emission) {emissionMode = _emission;}
     
     void setMotionState(bool _motion) {motionState = _motion;}
+    void setSensingMode(bool _synchUpdate) {
+        synchUpdate = _synchUpdate;
+    }
     
     void setShape(ShapeQbot _shape) {shape = _shape;}
     void setRadius(float _radius) {radius = _radius;}
@@ -59,6 +65,8 @@ public:
     float computeLengthDijNK(Qbot* ptrQj, uint16_t K);
     float computeLocalField();
     ofVec2f computeFieldGradient();
+    void computeLocalFieldAndGradient(float& field, ofVec2f& fieldGrad);
+
     
     // METHODS FOR UPDATE:
     ofVec2f computeNewPosition();
@@ -70,7 +78,9 @@ public:
     void drawTrajectory();
     void drawDijN();
     void drawGradient();
+    
     bool mobileQbot;
+    bool synchUpdate;
     
     // ========= Public STATIC variables and methods =========
     static void begin();
@@ -116,9 +126,9 @@ public:
     static void updateAll();
     static void drawAll();
     
-    static void stopClock() {modeClock=false;}
-    static void resumeClock() {modeClock=true;}
-    static void toggleClockState() {modeClock=!modeClock;}
+    static void freezeEvolution() {modeEvolution=false;}
+    static void resumeEvolution() {modeEvolution=true;}
+    static void toogleEvolution() {modeEvolution=!modeEvolution;}
     
     static void toggleMotionStateAll() {motionStateAll=!motionStateAll;}
     static void setMotionStateInRange(int x, int y, uint16_t radiusRange, bool _motion);
@@ -141,11 +151,17 @@ private:
     float sqSpeedWave;//; = speedWave*speedWave;
     float maxParticleSpeed;// = MAX_SPEED_FACTOR*speedWave;
     float sqMaxParticleSpeed;// = maxParticleSpeed* maxParticleSpeed
+    float maxdXParticle;
+    float sqMaxdXParticle;
 
     float timePeriodWave;
     float timeCompute;
-    bool emissionMode; // when false, the robot does not emits its own waves.
-    bool attenuationMode; // wave attenuation or not.
+    
+    
+    // gradient/field sampling frequency and phase:
+    float relativeSamplingFreq; // in "omega" units
+    float relativeSamplingPhase;
+    
     
     // Variables to tweak the evolution (position and phase of emitter). Not static because they COULD be different for each robot.
     float factorMotion;
@@ -178,6 +194,8 @@ private:
     
     // Modes for individual behaviour:
     bool motionState;
+    bool emissionMode; // when false, the robot does not emits its own waves.
+    bool attenuationMode; // wave attenuation or not.
     
     // STATIC METHODS & VARIABLES =================================================================
     // ATTN: static member functions can only access static member variables & methods
@@ -185,15 +203,12 @@ private:
     
     static uint16_t indexID;
     
-    static float OMEGA;// = 20.0; // in Hz
-    static float WAVENUMBER;// = 3.0; // not exactly 2.PI/lambda, that would be in far field (circular propagating wave)
-    
     static float maxField, minField;
     
     // static ofVec2f dX, dY; // vectors to compute the gradient by finite differences.
     
     // Common clock for all particles:
-    static bool modeClock;
+    static bool modeEvolution;
     static float clock; // Incremented by timeStep every at every update()
     static float timeStep; // artificial time step (the update will be done at constant real time intervals, independent form this)
     static uint16_t N; // iteration (clock, if not reset some time later on, is equal to N*timeStep.
@@ -204,6 +219,7 @@ private:
     // Modes & parameters for drawing:
     static ofRectangle borderRectangle;
     
+    // DRAWING MODES:
     static bool modeBots;
     static bool modeLines; // draw or not the DijN lines
     static bool modeTrajectory;

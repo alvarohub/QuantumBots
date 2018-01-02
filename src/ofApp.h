@@ -2,6 +2,7 @@
 
 #include "ofMain.h"
 #include "QbotClass.h"
+#include "ofxGui.h"
 
 class ofApp : public ofBaseApp{
 
@@ -24,12 +25,17 @@ class ofApp : public ofBaseApp{
     
         float updateTimer, updatePeriod;
     
+    void drawViewportOutline(const ofRectangle & viewport);
+    
         //Added "core" methods & objects:
         // exit() : called at the moment before the app is terminated. This is useful for
         //doing cleanup stuff or making sure files are saved before the app terminates
         void exit(); // this will be necessary to properly clear the heap on the vector of Qbots.
     
+//        ofRectangle viewport2D;
+//        ofRectangle viewport3D;
+    
         ofEasyCam cam; // add mouse controls for camera movement
     bool cam3D;
-		
+    
 };

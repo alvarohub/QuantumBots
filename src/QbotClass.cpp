@@ -15,20 +15,20 @@
 uint16_t Qbot::indexID = 0;
 
 // TODO: better use speed wave and omega as parameter?
-float Qbot::OMEGA = .6; // in Hz
-float Qbot::WAVENUMBER = 2*PI/100; // lambda in pixels
+const float Qbot::OMEGA = .4; // in Hz
+const float Qbot::WAVENUMBER = 2*PI/250; // lambda in pixels
 // speed of the wave: omega/waveNumber
 
 //ofVec2f Qbot::dX = ofVec2f(1, 0); // in pixels?
 //ofVec2f Qbot::dY = ofVec2f(0, 1); // in pixels?
 
-bool Qbot::modeClock = false; // PRESS ENTER to start evolution.
+bool Qbot::modeEvolution = false; // PRESS ENTER to start evolution.
 uint16_t Qbot::N = 0;
 float Qbot::clock = 0; // Common clock for the emission field
-float Qbot::timeStep = 0.4; // artificial time step
+float Qbot::timeStep = 0.3;//0.3; // artificial time step
 
-float Qbot::maxField=-6;
-float Qbot::minField=6;
+float Qbot::maxField=-1;
+float Qbot::minField=1;
 
 vector<Qbot*> Qbot::vectorPtrQbots; // the whole array of bots
 uint16_t Qbot::numQbots=0;
@@ -90,15 +90,25 @@ void Qbot::init(uint16_t _ID, ofVec2f _initPos, float _initPhase, bool _emission
     omega = OMEGA;
     waveNumber = WAVENUMBER;
     
+    
+    relativeSamplingFreq = 1.0; // in "omega" units
+    relativeSamplingPhase = 0;
+    synchUpdate = false;
+    
+    
     speedWave = omega/waveNumber;
+    
+    sqTimeStep = timeStep*timeStep;
     sqSpeedWave = speedWave*speedWave;
     
+    dX_Wave = speedWave*timeStep; // displacement of the wave in a time step
+   
     maxParticleSpeed = MAX_SPEED_FACTOR*speedWave;
     sqMaxParticleSpeed = maxParticleSpeed*maxParticleSpeed;
     
-    sqTimeStep = timeStep*timeStep;
-    
-    dX_Wave = speedWave*timeStep; // displacement of the wave in a time step (will be useful to check agaist the speed of the particle)
+    maxdXParticle = MAX_SPEED_FACTOR*dX_Wave;
+    sqMaxdXParticle = sqMaxParticleSpeed*sqTimeStep;
+                    // = (MAX_SPEED_FACTOR*dX_Wave)^2
     
     timePeriodWave = 2.0*PI/omega;
     timeCompute = 0;
@@ -106,18 +116,18 @@ void Qbot::init(uint16_t _ID, ofVec2f _initPos, float _initPhase, bool _emission
     localField = 0;
     fieldGradient = ofVec2f(0,0);
     
-    attenuationMode = true;
+    attenuationMode = false;
     
     emissionMode = _emission;
     
     motionState = _motionState;
     
-    factorMotion = 1000000.0;
-    mass = .005;
+    factorMotion = 40.0;//1000000.0;
+    mass = 1.5;
     
     // Initial speed:
     //speed = ofVec2f(0,0);
-    speed = ofVec2f(10*(ID%2-0.5),0); // pixels/timStep
+    speed = ofVec2f(300*(ID%2-0.5),0); // pixels/timStep
     
 }
 
@@ -240,7 +250,7 @@ void Qbot::setMotionStateInRange(int x, int y, uint16_t radiusRange, bool _motio
 
 void Qbot::updateAll() {
     
-    if (modeClock) {
+    if (modeEvolution) {
         
         // First update the Qbots:
         for (uint16_t i=0 ; i<vectorPtrQbots.size(); i++) {
@@ -251,7 +261,9 @@ void Qbot::updateAll() {
         
         clock+=timeStep; // In principle, this is be equal to (X.size()-1)*timeStep, but it can be reset or changed at will (offset it)
         
-        N++ ; // Note: the clock can be reset, but this does not mean the "iteration" is reset, so we can start with clock = 0 but have a "past" trajectory.
+        N++ ;
+        // Note1: N is the iteration, starting from 0, not the number of iterations.
+        // Note2: the clock can be reset, but this does not mean the "iteration" is reset, so we can start with clock = 0 but have a "past" trajectory.
         
     }
     
@@ -308,26 +320,30 @@ void Qbot::drawAll() {
     
     ofPopMatrix();
     
-    ofDrawAxis(10);
-    
 }
 
 void Qbot::drawBot() {
     
-    // Note: N is the iteration, starting from 0, not the number of iterations.
+   
+    // Mantain dynamic range for color:
+    //float hueValue = ofMap(localField, minField, maxField, 0, 255);
+    // Note: The logistic function 1/(1+exp(-x)) covers more or
+    //       less all the range from 0 to 1 for x between -6 and 6.
+    float auxField = 2.0/(expf(-1.0*localField/maxField*1.5)+1.0)-1.0; // from -1 to 1
+   // float hueValue = ofMap(auxField, -1.0, 1.0, 0, 255);
+    
+    float hueValue = ofMap(auxField, -1.0, 1.0, 0, 255.0);
 
-    ofPushMatrix();
-    ofTranslate(X[N].x, X[N].y, (attenuationMode? 10000.0 : 10.0)*localField);
-    //float hueValue = ofMap(localField, -numQbots, numQbots, 0, 255);
-    
-    float hueValue = ofMap(localField, minField, maxField, 0, 255);
-    
+    // cout << "local: " << localField << ", min: " << minField <<", max:" << maxField << " || hue: "<< hueValue << endl;
     
     float auxRadius = radius+emissionMode*radius/5*(1+cos(omega*clock + offsetPhase.back()));
     
+    ofPushMatrix();
+    ofTranslate(X[N].x, X[N].y, (attenuationMode? 5000.0 : 10.0)*localField);
+    
     switch(shape){
         case SHAPE_DISK: // used to represent the bot (bad mix of shape and type... make another enum!)
-            ofSetColor(ofColor::fromHsb(hueValue,255, 255));
+            ofSetColor(ofColor::fromHsb(hueValue, 255, 255));
             ofFill();
             ofSetCircleResolution(8);
             ofDrawCircle(0,0, auxRadius);
@@ -385,15 +401,16 @@ void Qbot::drawGradient() {
     
     ofPushMatrix();
     ofTranslate(X[N]); //ofTranslate(X.back());
-    ofDrawLine({0,0}, (attenuationMode? 500000.0 : 500.0)*fieldGradient);
+    
+    ofVec2f arrow = (attenuationMode? 500000.0 : 500.0)*fieldGradient;
+    if (arrow.lengthSquared() > 2500) arrow.scale(50);
+    ofDrawLine({0,0}, arrow);
     //ofDrawArrow({0,0}, 15*fieldGradient);
+    
     ofPopMatrix();
 }
 
 void Qbot::drawDijN() {
-    
-    
-  
     
     // (1) draw light cone in the past:
 //    ofPushMatrix();
@@ -428,41 +445,52 @@ void Qbot::drawTrajectory() {
 
 void Qbot::update() {
     
-    //cout << "Time:  " <<  X.size() -1 << endl;
+    ofVec2f newPos = X[N]; // initialized with old position in case we don't change it (but need to store it)
+    float newOffPhase = offsetPhase.back(); // old phase
+    
     
     // The global clock is not updated here ("clock" is a static member variable shared by all the instances of the class). It has to be updated in the "updateAll" static method.
+    //cout << "Time:  " <<  X.size() -1 << endl;
     
     update_DijN_TijN();
     
-    //  if (clock-timeCompute > timePeriodWave) {
-    
     //(0) Compute the local field (useful to offset the phase of the emitter, change the color of the robot or something else):
-    localField = computeLocalField();
-    
+    //    localField = computeLocalField();
     // NOTE: localField is a value that can, at most, be equal (in absolute value) to the sum of all emission amplitudes (damped or not). This is probably a rare event, but for starters I will assume this can happen true. Also for starters, we will assume all the emission amplitudes equal to 1, and no dumping. So, the localField value lies between -numQbots and numQbots.
     
     //(1) Compute the gradient of the field to update the position - and offset phase?. Also to draw the gradient as a vector.
+    //    fieldGradient = computeFieldGradient();
     
-    fieldGradient = computeFieldGradient();
-    
-    //(2) Update positions by moving proportionnaly to the field gradient:
-    // Note: even though X is an array of "vertices" (ofPoint, i.e. ofVec3d), the last coordinate will be ignored, and always equal to 0. Otherwise, we could use it to encode the clock, so as to draw in 3d. But this complicated things when computing DijN. I will use ANOTHER array, X3D, for 3d drawing, not used very often, so I will copy everything if necessary.
-    if (motionStateAll && motionState) {
-        ofVec2f newpos = computeNewPosition();
-        X.addVertex(newpos.x, newpos.y, N+1); // N is not changed yet (this is done in the updateAll method), but the length of X has been incremented by one, and it means we "are" at iteration N+1 (length is N+2).
-        
-    }
-    else {
-        X.addVertex(X[N]);
-        X[N].z = N+1;
-    }
+    // Slightly faster:
+    computeLocalFieldAndGradient(localField, fieldGradient);
 
+
+    //(3) Update positions by moving proportionnaly to the field gradient:
+    // Note: even though X is an array of "vertices" (ofPoint, i.e. ofVec3d), the last coordinate will be ignored, and always equal to 0. Otherwise, we could use it to encode the clock, so as to draw in 3d. But this complicated things when computing DijN. I will use ANOTHER array, X3D, for 3d drawing, not used very often, so I will copy everything if necessary.
     
-    //(3) Update offset phase (HOW???)
-    float offPhase = computeNewOffsetPhase();
-    offsetPhase.push_back(offPhase);
+    if (motionStateAll && motionState) newPos = computeNewPosition();
     
-    timeCompute = clock;
+     //(3) Update offset phase (HOW???)
+    // ...make a mode for this (on/off):
+    newOffPhase = computeNewOffsetPhase();
+    
+  
+    
+    X.addVertex(newPos.x, newPos.y, N+1); // N is not changed yet (this is done in the updateAll method), but the length of X has been incremented by one, and it means we "are" at iteration N+1 (length is N+2).
+    offsetPhase.push_back(newOffPhase);
+    
+    // Compute field, gradient, and evolve things only at a certain sample frequency/phase:
+    // rem: we sample when omegasample * clock + phi_sample = k.PI, or put another way
+    //      when t ^
+//    if (synchUpdate && (clock - lastTimeCompute > timePeriodWave)) {
+//        
+//    timeCompute = clock;
+//    }
+    
+    // Other things:
+    // To mantain dynamic range for colors (we can assume: minField = -maxField):
+    if (localField > maxField) maxField = localField;
+    else if (localField < minField) minField = localField;
     
 }
 
@@ -482,17 +510,23 @@ ofVec2f Qbot::computeNewPosition() { // from current position and fieldGradient
     
     // 1) New Speed:
     ofVec2f dSpeed = forceFromGradient/mass*timeStep;
-    if (dSpeed.lengthSquared() > sqMaxParticleSpeed) dSpeed.scale(maxParticleSpeed);
     speed = speed + dSpeed;
     
+    // We need to ensure sub-luminal speed:
+    if (speed.lengthSquared() > sqMaxParticleSpeed) speed.scale(maxParticleSpeed);
+
     //2) New Position:
-    ofVec2f dX = dSpeed * timeStep;
-    if (dX.lengthSquared() > dX_Wave*dX_Wave) dX = dX.scale(dX_Wave);
+    ofVec2f dX = speed * timeStep;
+    
+    // Note: if we just limit the effective displacement to be subliminal, but we don't constrain the value of the speed,
+    // then things will be different: the speed can get larger and larger, and then the displacement will always be equal to its
+    //maximum value!
+   // if (dX.lengthSquared() > sqMaxdXParticle) dX = dX.scale(maxParticleSpeed);
     
 #else  // WITHOUT MASS:
     
     ofVec2f dX = forceFromGradient;
-    if (dX.lengthSquared() > dX_Wave*dX_Wave) dX = dX.scale(dX_Wave);
+    if (dX.lengthSquared() > sqMaxdXParticle) dX = dX.scale(maxdXParticle);
     
 #endif 
     ofVec2f newPos = X[N] + dX;
@@ -549,9 +583,6 @@ float Qbot::computeLocalField() {
     // cout << " * field on Qbot[" << ID << "] : ";
     // cout << localField << endl;
     
-     if (localField > maxField) maxField = localField;
-     else if (localField < minField) minField = localField;
-    
     return(field);
 }
 
@@ -563,9 +594,7 @@ ofVec2f Qbot::computeFieldGradient() {
             if (TijN[j]>0) { // otherwise particle j did not contribute to the field
                 
                 float phaseQbotj = vectorPtrQbots[l]->offsetPhase[TijN[j]];
-                
-                //float sqd = DijN[j].lengthSquared();
-               
+
                 float d = DijN[j].length();
                 float attenuation = (attenuationMode? 1.0 /(d*d) : 1.0);
                 
@@ -578,6 +607,34 @@ ofVec2f Qbot::computeFieldGradient() {
     //cout << fieldGrad.length() << endl;
     return(fieldGrad);
 }
+
+
+// small optimization: field and gradient simultaneously:
+void Qbot::computeLocalFieldAndGradient(float& field, ofVec2f& fieldGrad) {
+    
+    fieldGrad.set(0,0);
+    field = 0;
+    uint16_t j = 0;
+    for (uint16_t l=0; l < numQbots ; l++) {
+         if ( l!=ID && vectorPtrQbots[l]->emissionMode )   {
+           
+            if (TijN[j]>0) {
+                float phaseQbotj = vectorPtrQbots[l]->offsetPhase[TijN[j]];
+                
+                float d = DijN[j].length();
+                float attenuation = (attenuationMode? 1.0/(d*d) : 1.0);
+                
+                field+= attenuation*cos( omega*TijN[j]*timeStep + phaseQbotj );
+                fieldGrad -= attenuation*waveNumber*sin(omega*TijN[j]*timeStep + phaseQbotj )*DijN[j]/d;
+            }
+            
+            j++;
+        }
+    }
+    
+    
+}
+
 
 
 void Qbot::update_DijN_TijN() {
