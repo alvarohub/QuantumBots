@@ -175,22 +175,35 @@ void ofApp::keyPressed(int key){
             // Reminder: contructor with full parameters:
             //    Qbot(ofVec2f _pos, float _phase, bool _emission, bool _motile = true)
         case 'a': // emitter and mobile qbot
-            Qbot::addQbot(mouseX, mouseY, 0, true, true);
+            Qbot::addQbot(mouseX, mouseY, 0, true, true, false);
+            break;
+        case 'A': // emitter, mobile and synch mode
+            Qbot::addQbot(mouseX, mouseY, 0, true, true, true);
             break;
             
         case 's': // non-emitter and mobile qbot:
-            Qbot::addQbot(mouseX, mouseY, 0, false, true);
+            Qbot::addQbot(mouseX, mouseY, 0, false, true, false);
+            break;
+        case 'S': // non-emitter, mobile and synch mode
+            Qbot::addQbot(mouseX, mouseY, 0, false, true, true);
             break;
             
         case 'z': // emitter and fixed qbot:
-            Qbot::addQbot(mouseX, mouseY, 0, true, false);
+            Qbot::addQbot(mouseX, mouseY, 0, true, false, false);
+            break;
+        case 'Z': // emitter, fixed and in sych:
+            Qbot::addQbot(mouseX, mouseY, 0, true, false, true);
             break;
             
         case 'x': // non-emitter and fixed qbot:
-            
             // discretized grid?:
             // Qbot::addQbot(20*round(mouseX/20), 20*round(mouseY/20), 0, false, false);
-            Qbot::addQbot(mouseX, mouseY, 0, false, false);
+            Qbot::addQbot(mouseX, mouseY, 0, false, false, false);
+            break;
+        case 'X': // non-emitter, fixed and in synch
+            // discretized grid?:
+            // Qbot::addQbot(20*round(mouseX/20), 20*round(mouseY/20), 0, false, false);
+            Qbot::addQbot(mouseX, mouseY, 0, false, false, true);
             break;
             
             // 3d interaction mode:
@@ -250,7 +263,7 @@ void ofApp::keyPressed(int key){
             break;
             
             
-            // Create "square patch field checker, i.e. a small grid of fixed robots (translated in real time by the mouse), that DO NOT EMIT ANY FIELD.
+            // Create "square patch SYNCH field checker, i.e. a small grid of fixed robots (translated in real time by the mouse), that DO NOT EMIT ANY FIELD.
         case 'p':
         {
             uint8_t numSideX = 10;
@@ -263,10 +276,11 @@ void ofApp::keyPressed(int key){
                     ofVec2f initPos =
                     ofVec2f(1.5*dHex*j+1.5*dHex*(i%2)/2 + mouseX - sizePatch/2,
                             0.5*hHex * i  + mouseY - sizePatch/2);
-                    Qbot* myQbot=new Qbot(initPos, 0, false, false); // non emitting and fixed for now
+                    Qbot* myQbot=new Qbot(initPos, 0, false, false, false); // non emitting, fixed and no synch
                     myQbot->setRadius(0.3*dHex);
                     myQbot->setShape(Qbot::SHAPE_HEXAGON);
                     myQbot->setEmissionMode(false);
+                    myQbot->setSynchMode(true);
                     Qbot::add(myQbot);
                 }
             }
@@ -288,10 +302,11 @@ void ofApp::keyPressed(int key){
                             0.5*hHex * i  + ofGetHeight()/2 - sizePatch/2 ); //+ hHex/2
                     
                     if (initPos.x <ofGetWidth() + dHex/2 && initPos.y < ofGetHeight() + hHex/2 ) {
-                        Qbot* myQbot=new Qbot(initPos, 0, false, false); // non emitting and fixed for now
+                        Qbot* myQbot=new Qbot(initPos, 0, false, false, false); // non emitting and fixed for now
                         myQbot->setRadius(0.5*dHex-2); //0.3*dHex);
                         myQbot->setShape(Qbot::SHAPE_HEXAGON);
                         myQbot->setEmissionMode(false);
+                        myQbot->setSynchMode(false);
                         Qbot::add(myQbot);
                     }
                 }
@@ -309,10 +324,11 @@ void ofApp::keyPressed(int key){
                 for (uint16_t j = 0; j < numSide+1; j++) {
                     ofVec2f initPos = ofVec2f(j*dSquare +dSquare/2 + ofGetWidth()/2 -sizePatch/2, i*dSquare +dSquare/2 + ofGetHeight()/2 - sizePatch/2);
                    
-                     Qbot* myQbot=new Qbot(initPos, 0, false, false);// non emitting and fixed
+                     Qbot* myQbot=new Qbot(initPos, 0, false, false, false);// non emitting, fixed, no SYNCH
                         myQbot->setRadius(dSquare-2); //0.3*dHex);
                         myQbot->setShape(Qbot::SHAPE_SQUARE);
                         myQbot->setEmissionMode(false);
+                        myQbot->setSynchMode(true);
                         Qbot::add(myQbot);
                 }
             }

@@ -12,7 +12,7 @@
 #define WITH_MASS // comment to use direct position update (no integration not mass).
     // IMPORTANT NOTE: when there is mass, the particle itself work as a "resonator" having a proper frequency. Otherwise, we need to introduce an arbitrary field sampling frequency.
 
-#define MAX_SPEED_FACTOR 0.15 //  maxParticleSpeed = MAX_SPEED_FACTOR*speedWave;
+#define MAX_SPEED_FACTOR 0.1 //  maxParticleSpeed = MAX_SPEED_FACTOR*speedWave;
 
 
 
@@ -32,10 +32,10 @@ public:
     
     Qbot();
     Qbot(ofVec2f _pos);
-    Qbot(ofVec2f _pos, float _phase, bool _emission, bool _motile);
+    Qbot(ofVec2f _pos, float _phase, bool _emission, bool _motile, bool _synch);
     ~Qbot();
     
-    void init(uint16_t _ID, ofVec2f _initPos, float _initPhase, bool _emission, bool _motion);
+    void init(uint16_t _ID, ofVec2f _initPos, float _initPhase, bool _emission, bool _motion, bool _synch);
     
     // Setters and getters:
     void setId(uint16_t _ID) {ID = _ID;}
@@ -53,9 +53,7 @@ public:
     void setEmissionMode(bool _emission) {emissionMode = _emission;}
     
     void setMotionState(bool _motion) {motionState = _motion;}
-    void setSensingMode(bool _synchUpdate) {
-        synchUpdate = _synchUpdate;
-    }
+    void setSynchMode(bool _synchMode) {synchMode = _synchMode;}
     
     void setShape(ShapeQbot _shape) {shape = _shape;}
     void setRadius(float _radius) {radius = _radius;}
@@ -80,7 +78,7 @@ public:
     void drawGradient();
     
     bool mobileQbot;
-    bool synchUpdate;
+    bool synchMode;
     
     // ========= Public STATIC variables and methods =========
     static void begin();
@@ -117,8 +115,8 @@ public:
         }
     }
     
-     static void addQbot(ofVec2f _pos, float _phase, bool _emission, bool _motile);
-    static void addQbot(float x, float y, float _phase, bool _emission, bool _motile);
+    static void addQbot(ofVec2f _pos, float _phase, bool _emission, bool _motile, bool _synch);
+    static void addQbot(float x, float y, float _phase, bool _emission, bool _motile, bool _synch);
     static void deleteQbotInRange(uint16_t x, uint16_t y, uint16_t radiusRange);
     static void deleteQbot(Qbot* qbot);
     
@@ -145,6 +143,8 @@ private:
     // Note: the wavelenght and angular frequency COULD be different for each particle, but in general will be the same.
     float omega;
     float waveNumber;
+    float timePeriodWave;
+    
     float speedWave; // = omega/waveNumber
     float dX_Wave; // = speedWave*timeStep;
     float sqTimeStep;//; = timeStep*timeStep;
@@ -154,13 +154,10 @@ private:
     float maxdXParticle;
     float sqMaxdXParticle;
 
-    float timePeriodWave;
-    float timeCompute;
-    
-    
-    // gradient/field sampling frequency and phase:
-    float relativeSamplingFreq; // in "omega" units
-    float relativeSamplingPhase;
+    // Gradient/field sampling frequency and phase:
+    float samplingFreq, samplingPeriod;
+    float samplingOffsetPhaseDeg, samplingTimeOffset;
+    float lastTimeSample;
     
     
     // Variables to tweak the evolution (position and phase of emitter). Not static because they COULD be different for each robot.

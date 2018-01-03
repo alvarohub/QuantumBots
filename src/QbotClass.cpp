@@ -16,7 +16,7 @@ uint16_t Qbot::indexID = 0;
 
 // TODO: better use speed wave and omega as parameter?
 const float Qbot::OMEGA = .4; // in Hz
-const float Qbot::WAVENUMBER = 2*PI/250; // lambda in pixels
+const float Qbot::WAVENUMBER = 2*PI/300; // lambda in pixels
 // speed of the wave: omega/waveNumber
 
 //ofVec2f Qbot::dX = ofVec2f(1, 0); // in pixels?
@@ -54,17 +54,17 @@ void Qbot::begin() {
 
 Qbot::Qbot() { // use the static variable "indexID" to increment ID and randomize inital position
     ofVec2f randomPos = ofVec2f(ofRandomWidth(), ofRandomHeight());
-    init(indexID, randomPos, 0, true, true);
+    init(indexID, randomPos, 0, true, true, false);
     indexID++;
 }
 
 Qbot::Qbot(ofVec2f _pos) {
-    init(indexID, _pos, 0, true, true);
+    init(indexID, _pos, 0, true, true, false);
     indexID++;
 }
 
-Qbot::Qbot(ofVec2f _pos, float _phase, bool _emission, bool _motile = true) {
-    init(indexID, _pos, _phase, _emission, _motile);
+Qbot::Qbot(ofVec2f _pos, float _phase, bool _emission, bool _motile, bool _synch) {
+    init(indexID, _pos, _phase, _emission, _motile, _synch);
     indexID++;
 }
 
@@ -73,7 +73,7 @@ Qbot::~Qbot() {
     // automatically call destructor of vector arrays position and phase.
 }
 
-void Qbot::init(uint16_t _ID, ofVec2f _initPos, float _initPhase, bool _emission, bool _motionState) {
+void Qbot::init(uint16_t _ID, ofVec2f _initPos, float _initPhase, bool _emission, bool _motionState, bool _synch) {
     
     ID = _ID;
     
@@ -87,61 +87,58 @@ void Qbot::init(uint16_t _ID, ofVec2f _initPos, float _initPhase, bool _emission
     offsetPhase.clear();
     offsetPhase.push_back(_initPhase);
     
+    sqTimeStep = timeStep*timeStep;
+    
     omega = OMEGA;
     waveNumber = WAVENUMBER;
-    
-    
-    relativeSamplingFreq = 1.0; // in "omega" units
-    relativeSamplingPhase = 0;
-    synchUpdate = false;
-    
-    
     speedWave = omega/waveNumber;
-    
-    sqTimeStep = timeStep*timeStep;
     sqSpeedWave = speedWave*speedWave;
-    
     dX_Wave = speedWave*timeStep; // displacement of the wave in a time step
-   
+    timePeriodWave = 2.0*PI/omega;
+    
+    // continuous or periodic (synchronous) field sampling:
+    samplingFreq = 0.5 /timePeriodWave;
+    samplingPeriod = 1.0/samplingFreq;
+    samplingOffsetPhaseDeg = 180;
+    samplingTimeOffset = samplingOffsetPhaseDeg / 360.0 * samplingPeriod;
+    lastTimeSample = 0;
+    
     maxParticleSpeed = MAX_SPEED_FACTOR*speedWave;
     sqMaxParticleSpeed = maxParticleSpeed*maxParticleSpeed;
     
     maxdXParticle = MAX_SPEED_FACTOR*dX_Wave;
     sqMaxdXParticle = sqMaxParticleSpeed*sqTimeStep;
                     // = (MAX_SPEED_FACTOR*dX_Wave)^2
-    
-    timePeriodWave = 2.0*PI/omega;
-    timeCompute = 0;
-    
+
     localField = 0;
     fieldGradient = ofVec2f(0,0);
     
-    attenuationMode = false;
-    
-    emissionMode = _emission;
-    
-    motionState = _motionState;
-    
-    factorMotion = 40.0;//1000000.0;
-    mass = 1.5;
+    factorMotion = 4.0;//1000000.0;
+    mass = 0.5;
     
     // Initial speed:
     //speed = ofVec2f(0,0);
     speed = ofVec2f(300*(ID%2-0.5),0); // pixels/timStep
     
+    // Default modes:
+    attenuationMode = false;
+    emissionMode = _emission;
+    motionState = _motionState;
+    synchMode = _synch;
+    
 }
 
 // STATIC CLASS METHODS:
 
-void Qbot::addQbot(float x, float y,  float _phase, bool _emission, bool _motile = true) {
+void Qbot::addQbot(float x, float y,  float _phase, bool _emission, bool _motile, bool _synch) {
     // use a struct to store Qbot variables? (and have a "default" bot?):
-    Qbot* newPtrQbot = new Qbot(ofVec2f(x, y), _phase, _emission, _motile);
+    Qbot* newPtrQbot = new Qbot(ofVec2f(x, y), _phase, _emission, _motile, _synch);
     Qbot::add(newPtrQbot);
 }
 
-void Qbot::addQbot(ofVec2f _pos,  float _phase, bool _emission, bool _motile = true) {
+void Qbot::addQbot(ofVec2f _pos,  float _phase, bool _emission, bool _motile, bool  _synch) {
     // use a struct to store Qbot variables? (and have a "default" bot?):
-    Qbot* newPtrQbot = new Qbot(_pos, _phase, _emission, _motile);
+    Qbot* newPtrQbot = new Qbot(_pos, _phase, _emission, _motile, _synch);
     Qbot::add(newPtrQbot);
 }
 
@@ -355,14 +352,16 @@ void Qbot::drawBot() {
             break;
             
         case SHAPE_SQUARE:
-            ofSetColor(ofColor::fromHsb(hueValue,255, 255, 150));
+            ofSetColor(ofColor::fromHsb(hueValue,255, 255, 100));
             ofFill();
+            ofTranslate(0,0,-1);
             ofDrawRectangle(0,0,auxRadius,auxRadius);
             break;
             
         case SHAPE_HEXAGON:
-            ofSetColor(ofColor::fromHsb(hueValue, 255, 255, 150));
+            ofSetColor(ofColor::fromHsb(hueValue, 255, 255, 100));
             ofFill();
+             ofTranslate(0,0,-1);
             ofSetCircleResolution(6);
             ofDrawCircle(0,0,auxRadius);
             break;
@@ -462,39 +461,46 @@ void Qbot::update() {
     //    fieldGradient = computeFieldGradient();
     
     // Slightly faster:
-    computeLocalFieldAndGradient(localField, fieldGradient);
-
+    // computeLocalFieldAndGradient(localField, fieldGradient);
 
     //(3) Update positions by moving proportionnaly to the field gradient:
     // Note: even though X is an array of "vertices" (ofPoint, i.e. ofVec3d), the last coordinate will be ignored, and always equal to 0. Otherwise, we could use it to encode the clock, so as to draw in 3d. But this complicated things when computing DijN. I will use ANOTHER array, X3D, for 3d drawing, not used very often, so I will copy everything if necessary.
     
-    if (motionStateAll && motionState) newPos = computeNewPosition();
-    
-     //(3) Update offset phase (HOW???)
+    //(3) Update offset phase (HOW???)
     // ...make a mode for this (on/off):
-    newOffPhase = computeNewOffsetPhase();
+
     
-  
+    if (!synchMode) computeLocalFieldAndGradient(localField, fieldGradient); // continuous update
+    else if (clock + samplingTimeOffset - lastTimeSample  > samplingPeriod) {
+        // Compute field, gradient, and evolve things only at a certain sample frequency/phase
+    
+            computeLocalFieldAndGradient(localField, fieldGradient);
+            
+            lastTimeSample = clock + samplingTimeOffset;
+    } // otherwise, don't recalculate the local field.
+
+
+    // Finally, update position and phase (from new or same field):
+    if (motionStateAll && motionState) {
+        newPos = computeNewPosition();
+        newOffPhase = computeNewOffsetPhase();
+    }
+
     
     X.addVertex(newPos.x, newPos.y, N+1); // N is not changed yet (this is done in the updateAll method), but the length of X has been incremented by one, and it means we "are" at iteration N+1 (length is N+2).
     offsetPhase.push_back(newOffPhase);
-    
-    // Compute field, gradient, and evolve things only at a certain sample frequency/phase:
-    // rem: we sample when omegasample * clock + phi_sample = k.PI, or put another way
-    //      when t ^
-//    if (synchUpdate && (clock - lastTimeCompute > timePeriodWave)) {
-//        
-//    timeCompute = clock;
-//    }
     
     // Other things:
     // To mantain dynamic range for colors (we can assume: minField = -maxField):
     if (localField > maxField) maxField = localField;
     else if (localField < minField) minField = localField;
     
+    // IMPORTANT: update clock (done for all the bots at the same time, so this is in the updateAll static method)
+    //clock+=timeStep;
+    
 }
 
-ofVec2f Qbot::computeNewPosition() { // from current position and fieldGradient
+ofVec2f Qbot::computeNewPosition() { // from current position and current fieldGradient
    
     // NOTE: the third coordinate of X[k] encodes time. While this is not necessary here, it is practical for drawing the trajectory in space-time (plus the ofPolyline is in fact: vector<ofVec3d>
     // However, when mixing ofVec2d and ofVec3d, when possible the compiler will do a cast to 2d.
@@ -580,8 +586,8 @@ float Qbot::computeLocalField() {
         }
     }
     
-    // cout << " * field on Qbot[" << ID << "] : ";
-    // cout << localField << endl;
+//     cout << " * field on Qbot[" << ID << "] : ";
+//     cout << localField << endl;
     
     return(field);
 }
@@ -631,7 +637,6 @@ void Qbot::computeLocalFieldAndGradient(float& field, ofVec2f& fieldGrad) {
             j++;
         }
     }
-    
     
 }
 
