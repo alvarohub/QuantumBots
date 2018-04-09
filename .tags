@@ -1,0 +1,162 @@
+!_TAG_FILE_FORMAT	2	/extended format; --format=1 will not append ;" to lines/
+!_TAG_FILE_SORTED	0	/0=unsorted, 1=sorted, 2=foldcase/
+!_TAG_PROGRAM_AUTHOR	Darren Hiebert	/dhiebert@users.sourceforge.net/
+!_TAG_PROGRAM_NAME	Exuberant Ctags	//
+!_TAG_PROGRAM_URL	http://ctags.sourceforge.net	/official site/
+!_TAG_PROGRAM_VERSION	5.8	//
+OF_ROOT	/Users/alvaro/DEV_SOFTWARE/Qbots/Makefile	/^    OF_ROOT=$(realpath ..\/..\/..)$/;"	macro	line:9
+QuantumBots	/Users/alvaro/DEV_SOFTWARE/Qbots/README.md	/^# QuantumBots$/;"	function	line:1
+main	/Users/alvaro/DEV_SOFTWARE/Qbots/src/main.cpp	/^int main( ){$/;"	function	line:5	signature:( )
+setup	/Users/alvaro/DEV_SOFTWARE/Qbots/src/ofApp.cpp	/^void ofApp::setup(){$/;"	function	line:5	class:ofApp	signature:()
+exit	/Users/alvaro/DEV_SOFTWARE/Qbots/src/ofApp.cpp	/^void ofApp::exit() {$/;"	function	line:88	class:ofApp	signature:()
+update	/Users/alvaro/DEV_SOFTWARE/Qbots/src/ofApp.cpp	/^void ofApp::update(){$/;"	function	line:93	class:ofApp	signature:()
+draw	/Users/alvaro/DEV_SOFTWARE/Qbots/src/ofApp.cpp	/^void ofApp::draw(){$/;"	function	line:104	class:ofApp	signature:()
+keyPressed	/Users/alvaro/DEV_SOFTWARE/Qbots/src/ofApp.cpp	/^void ofApp::keyPressed(int key){$/;"	function	line:170	class:ofApp	signature:(int key)
+drawViewportOutline	/Users/alvaro/DEV_SOFTWARE/Qbots/src/ofApp.cpp	/^void ofApp::drawViewportOutline(const ofRectangle & viewport){$/;"	function	line:352	class:ofApp	signature:(const ofRectangle & viewport)
+keyReleased	/Users/alvaro/DEV_SOFTWARE/Qbots/src/ofApp.cpp	/^void ofApp::keyReleased(int key){$/;"	function	line:366	class:ofApp	signature:(int key)
+mouseMoved	/Users/alvaro/DEV_SOFTWARE/Qbots/src/ofApp.cpp	/^void ofApp::mouseMoved(int x, int y ){$/;"	function	line:371	class:ofApp	signature:(int x, int y )
+mouseDragged	/Users/alvaro/DEV_SOFTWARE/Qbots/src/ofApp.cpp	/^void ofApp::mouseDragged(int x, int y, int button){$/;"	function	line:376	class:ofApp	signature:(int x, int y, int button)
+mousePressed	/Users/alvaro/DEV_SOFTWARE/Qbots/src/ofApp.cpp	/^void ofApp::mousePressed(int x, int y, int button){$/;"	function	line:381	class:ofApp	signature:(int x, int y, int button)
+mouseReleased	/Users/alvaro/DEV_SOFTWARE/Qbots/src/ofApp.cpp	/^void ofApp::mouseReleased(int x, int y, int button){$/;"	function	line:395	class:ofApp	signature:(int x, int y, int button)
+mouseEntered	/Users/alvaro/DEV_SOFTWARE/Qbots/src/ofApp.cpp	/^void ofApp::mouseEntered(int x, int y){$/;"	function	line:400	class:ofApp	signature:(int x, int y)
+mouseExited	/Users/alvaro/DEV_SOFTWARE/Qbots/src/ofApp.cpp	/^void ofApp::mouseExited(int x, int y){$/;"	function	line:405	class:ofApp	signature:(int x, int y)
+windowResized	/Users/alvaro/DEV_SOFTWARE/Qbots/src/ofApp.cpp	/^void ofApp::windowResized(int w, int h){$/;"	function	line:410	class:ofApp	signature:(int w, int h)
+gotMessage	/Users/alvaro/DEV_SOFTWARE/Qbots/src/ofApp.cpp	/^void ofApp::gotMessage(ofMessage msg){$/;"	function	line:415	class:ofApp	signature:(ofMessage msg)
+dragEvent	/Users/alvaro/DEV_SOFTWARE/Qbots/src/ofApp.cpp	/^void ofApp::dragEvent(ofDragInfo dragInfo){$/;"	function	line:420	class:ofApp	signature:(ofDragInfo dragInfo)
+ofApp	/Users/alvaro/DEV_SOFTWARE/Qbots/src/ofApp.h	/^class ofApp : public ofBaseApp{$/;"	class	line:7
+updateTimer	/Users/alvaro/DEV_SOFTWARE/Qbots/src/ofApp.h	/^        float updateTimer, updatePeriod;$/;"	member	line:26	class:ofApp
+updatePeriod	/Users/alvaro/DEV_SOFTWARE/Qbots/src/ofApp.h	/^        float updateTimer, updatePeriod;$/;"	member	line:26	class:ofApp
+cam	/Users/alvaro/DEV_SOFTWARE/Qbots/src/ofApp.h	/^        ofEasyCam cam; \/\/ add mouse controls for camera movement$/;"	member	line:38	class:ofApp
+cam3D	/Users/alvaro/DEV_SOFTWARE/Qbots/src/ofApp.h	/^    bool cam3D;$/;"	member	line:39	class:ofApp
+indexID	/Users/alvaro/DEV_SOFTWARE/Qbots/src/QbotClass.cpp	/^uint16_t Qbot::indexID = 0;$/;"	member	line:15	class:Qbot	file:
+OMEGA	/Users/alvaro/DEV_SOFTWARE/Qbots/src/QbotClass.cpp	/^const float Qbot::OMEGA = .4; \/\/ in Hz$/;"	member	line:18	class:Qbot	file:
+WAVENUMBER	/Users/alvaro/DEV_SOFTWARE/Qbots/src/QbotClass.cpp	/^const float Qbot::WAVENUMBER = 2*PI\/300; \/\/ lambda in pixels$/;"	member	line:19	class:Qbot	file:
+modeEvolution	/Users/alvaro/DEV_SOFTWARE/Qbots/src/QbotClass.cpp	/^bool Qbot::modeEvolution = false; \/\/ PRESS ENTER to start evolution.$/;"	member	line:25	class:Qbot	file:
+N	/Users/alvaro/DEV_SOFTWARE/Qbots/src/QbotClass.cpp	/^uint16_t Qbot::N = 0;$/;"	member	line:26	class:Qbot	file:
+clock	/Users/alvaro/DEV_SOFTWARE/Qbots/src/QbotClass.cpp	/^float Qbot::clock = 0; \/\/ Common clock for the emission field$/;"	member	line:27	class:Qbot	file:
+timeStep	/Users/alvaro/DEV_SOFTWARE/Qbots/src/QbotClass.cpp	/^float Qbot::timeStep = 0.3;\/\/0.3; \/\/ artificial time step$/;"	member	line:28	class:Qbot	file:
+maxField	/Users/alvaro/DEV_SOFTWARE/Qbots/src/QbotClass.cpp	/^float Qbot::maxField=-1;$/;"	member	line:30	class:Qbot	file:
+minField	/Users/alvaro/DEV_SOFTWARE/Qbots/src/QbotClass.cpp	/^float Qbot::minField=1;$/;"	member	line:31	class:Qbot	file:
+vectorPtrQbots	/Users/alvaro/DEV_SOFTWARE/Qbots/src/QbotClass.cpp	/^vector<Qbot*> Qbot::vectorPtrQbots; \/\/ the whole array of bots$/;"	member	line:33	class:Qbot	file:
+numQbots	/Users/alvaro/DEV_SOFTWARE/Qbots/src/QbotClass.cpp	/^uint16_t Qbot::numQbots=0;$/;"	member	line:34	class:Qbot	file:
+motionStateAll	/Users/alvaro/DEV_SOFTWARE/Qbots/src/QbotClass.cpp	/^bool Qbot::motionStateAll = true;$/;"	member	line:37	class:Qbot	file:
+modeBots	/Users/alvaro/DEV_SOFTWARE/Qbots/src/QbotClass.cpp	/^bool Qbot::modeBots = true;$/;"	member	line:40	class:Qbot	file:
+modeTrajectory	/Users/alvaro/DEV_SOFTWARE/Qbots/src/QbotClass.cpp	/^bool Qbot::modeTrajectory = true;$/;"	member	line:41	class:Qbot	file:
+modeLines	/Users/alvaro/DEV_SOFTWARE/Qbots/src/QbotClass.cpp	/^bool Qbot::modeLines  = false;$/;"	member	line:42	class:Qbot	file:
+modeGradient	/Users/alvaro/DEV_SOFTWARE/Qbots/src/QbotClass.cpp	/^bool Qbot::modeGradient = false;$/;"	member	line:43	class:Qbot	file:
+borderRectangle	/Users/alvaro/DEV_SOFTWARE/Qbots/src/QbotClass.cpp	/^ofRectangle Qbot::borderRectangle;$/;"	member	line:45	class:Qbot	file:
+begin	/Users/alvaro/DEV_SOFTWARE/Qbots/src/QbotClass.cpp	/^void Qbot::begin() {$/;"	function	line:48	class:Qbot	signature:()
+Qbot	/Users/alvaro/DEV_SOFTWARE/Qbots/src/QbotClass.cpp	/^Qbot::Qbot() { \/\/ use the static variable "indexID" to increment ID and randomize inital position$/;"	function	line:55	class:Qbot	signature:()
+Qbot	/Users/alvaro/DEV_SOFTWARE/Qbots/src/QbotClass.cpp	/^Qbot::Qbot(ofVec2f _pos) {$/;"	function	line:61	class:Qbot	signature:(ofVec2f _pos)
+Qbot	/Users/alvaro/DEV_SOFTWARE/Qbots/src/QbotClass.cpp	/^Qbot::Qbot(ofVec2f _pos, float _phase, bool _emission, bool _motile, bool _synch) {$/;"	function	line:66	class:Qbot	signature:(ofVec2f _pos, float _phase, bool _emission, bool _motile, bool _synch)
+~Qbot	/Users/alvaro/DEV_SOFTWARE/Qbots/src/QbotClass.cpp	/^Qbot::~Qbot() {$/;"	function	line:71	class:Qbot	signature:()
+init	/Users/alvaro/DEV_SOFTWARE/Qbots/src/QbotClass.cpp	/^void Qbot::init(uint16_t _ID, ofVec2f _initPos, float _initPhase, bool _emission, bool _motionState, bool _synch) {$/;"	function	line:76	class:Qbot	signature:(uint16_t _ID, ofVec2f _initPos, float _initPhase, bool _emission, bool _motionState, bool _synch)
+addQbot	/Users/alvaro/DEV_SOFTWARE/Qbots/src/QbotClass.cpp	/^void Qbot::addQbot(float x, float y,  float _phase, bool _emission, bool _motile, bool _synch) {$/;"	function	line:133	class:Qbot	signature:(float x, float y, float _phase, bool _emission, bool _motile, bool _synch)
+addQbot	/Users/alvaro/DEV_SOFTWARE/Qbots/src/QbotClass.cpp	/^void Qbot::addQbot(ofVec2f _pos,  float _phase, bool _emission, bool _motile, bool  _synch) {$/;"	function	line:139	class:Qbot	signature:(ofVec2f _pos, float _phase, bool _emission, bool _motile, bool _synch)
+add	/Users/alvaro/DEV_SOFTWARE/Qbots/src/QbotClass.cpp	/^void Qbot::add(Qbot* newPtrQbot) {$/;"	function	line:146	class:Qbot	signature:(Qbot* newPtrQbot)
+deleteQbot	/Users/alvaro/DEV_SOFTWARE/Qbots/src/QbotClass.cpp	/^void Qbot::deleteQbot(Qbot* qbot) {$/;"	function	line:185	class:Qbot	signature:(Qbot* qbot)
+deleteQbotInRange	/Users/alvaro/DEV_SOFTWARE/Qbots/src/QbotClass.cpp	/^void Qbot::deleteQbotInRange(uint16_t x, uint16_t y, uint16 radiusRange) {$/;"	function	line:212	class:Qbot	signature:(uint16_t x, uint16_t y, uint16 radiusRange)
+deleteAllQbots	/Users/alvaro/DEV_SOFTWARE/Qbots/src/QbotClass.cpp	/^void Qbot::deleteAllQbots() {$/;"	function	line:226	class:Qbot	signature:()
+setMotionStateInRange	/Users/alvaro/DEV_SOFTWARE/Qbots/src/QbotClass.cpp	/^void Qbot::setMotionStateInRange(int x, int y, uint16_t radiusRange, bool _motion) {$/;"	function	line:235	class:Qbot	signature:(int x, int y, uint16_t radiusRange, bool _motion)
+updateAll	/Users/alvaro/DEV_SOFTWARE/Qbots/src/QbotClass.cpp	/^void Qbot::updateAll() {$/;"	function	line:248	class:Qbot	signature:()
+drawAll	/Users/alvaro/DEV_SOFTWARE/Qbots/src/QbotClass.cpp	/^void Qbot::drawAll() {$/;"	function	line:270	class:Qbot	signature:()
+drawBot	/Users/alvaro/DEV_SOFTWARE/Qbots/src/QbotClass.cpp	/^void Qbot::drawBot() {$/;"	function	line:322	class:Qbot	signature:()
+drawGradient	/Users/alvaro/DEV_SOFTWARE/Qbots/src/QbotClass.cpp	/^void Qbot::drawGradient() {$/;"	function	line:396	class:Qbot	signature:()
+drawDijN	/Users/alvaro/DEV_SOFTWARE/Qbots/src/QbotClass.cpp	/^void Qbot::drawDijN() {$/;"	function	line:412	class:Qbot	signature:()
+drawTrajectory	/Users/alvaro/DEV_SOFTWARE/Qbots/src/QbotClass.cpp	/^void Qbot::drawTrajectory() {$/;"	function	line:435	class:Qbot	signature:()
+update	/Users/alvaro/DEV_SOFTWARE/Qbots/src/QbotClass.cpp	/^void Qbot::update() {$/;"	function	line:445	class:Qbot	signature:()
+computeNewPosition	/Users/alvaro/DEV_SOFTWARE/Qbots/src/QbotClass.cpp	/^ofVec2f Qbot::computeNewPosition() { \/\/ from current position and current fieldGradient$/;"	function	line:503	class:Qbot	signature:()
+computeNewOffsetPhase	/Users/alvaro/DEV_SOFTWARE/Qbots/src/QbotClass.cpp	/^float Qbot::computeNewOffsetPhase() {$/;"	function	line:552	class:Qbot	signature:()
+computeLocalField	/Users/alvaro/DEV_SOFTWARE/Qbots/src/QbotClass.cpp	/^float Qbot::computeLocalField() {$/;"	function	line:558	class:Qbot	signature:()
+computeFieldGradient	/Users/alvaro/DEV_SOFTWARE/Qbots/src/QbotClass.cpp	/^ofVec2f Qbot::computeFieldGradient() {$/;"	function	line:595	class:Qbot	signature:()
+computeLocalFieldAndGradient	/Users/alvaro/DEV_SOFTWARE/Qbots/src/QbotClass.cpp	/^void Qbot::computeLocalFieldAndGradient(float& field, ofVec2f& fieldGrad) {$/;"	function	line:619	class:Qbot	signature:(float& field, ofVec2f& fieldGrad)
+update_DijN_TijN	/Users/alvaro/DEV_SOFTWARE/Qbots/src/QbotClass.cpp	/^void Qbot::update_DijN_TijN() {$/;"	function	line:645	class:Qbot	signature:()
+computeLengthDijNK	/Users/alvaro/DEV_SOFTWARE/Qbots/src/QbotClass.cpp	/^float Qbot::computeLengthDijNK(Qbot* ptrQj, uint16_t K) {$/;"	function	line:730	class:Qbot	signature:(Qbot* ptrQj, uint16_t K)
+QbotClass_h	/Users/alvaro/DEV_SOFTWARE/Qbots/src/QbotClass.h	/^#define QbotClass_h$/;"	macro	line:10
+WITH_MASS	/Users/alvaro/DEV_SOFTWARE/Qbots/src/QbotClass.h	/^#define WITH_MASS /;"	macro	line:12
+MAX_SPEED_FACTOR	/Users/alvaro/DEV_SOFTWARE/Qbots/src/QbotClass.h	/^#define MAX_SPEED_FACTOR /;"	macro	line:15
+Qbot	/Users/alvaro/DEV_SOFTWARE/Qbots/src/QbotClass.h	/^class Qbot {$/;"	class	line:24
+OMEGA	/Users/alvaro/DEV_SOFTWARE/Qbots/src/QbotClass.h	/^    static const float OMEGA;\/\/ = 20.0; \/\/ in Hz$/;"	member	line:28	class:Qbot
+WAVENUMBER	/Users/alvaro/DEV_SOFTWARE/Qbots/src/QbotClass.h	/^    static const float WAVENUMBER;\/\/ = 3.0; \/\/ not exactly 2.PI\/lambda, that would be in far field (circular propagating wave)$/;"	member	line:29	class:Qbot
+ShapeQbot	/Users/alvaro/DEV_SOFTWARE/Qbots/src/QbotClass.h	/^    enum ShapeQbot {SHAPE_HEXAGON, SHAPE_SQUARE, SHAPE_DISK};$/;"	enum	line:31	class:Qbot
+SHAPE_HEXAGON	/Users/alvaro/DEV_SOFTWARE/Qbots/src/QbotClass.h	/^    enum ShapeQbot {SHAPE_HEXAGON, SHAPE_SQUARE, SHAPE_DISK};$/;"	enumerator	line:31	enum:Qbot::ShapeQbot
+SHAPE_SQUARE	/Users/alvaro/DEV_SOFTWARE/Qbots/src/QbotClass.h	/^    enum ShapeQbot {SHAPE_HEXAGON, SHAPE_SQUARE, SHAPE_DISK};$/;"	enumerator	line:31	enum:Qbot::ShapeQbot
+SHAPE_DISK	/Users/alvaro/DEV_SOFTWARE/Qbots/src/QbotClass.h	/^    enum ShapeQbot {SHAPE_HEXAGON, SHAPE_SQUARE, SHAPE_DISK};$/;"	enumerator	line:31	enum:Qbot::ShapeQbot
+setId	/Users/alvaro/DEV_SOFTWARE/Qbots/src/QbotClass.h	/^    void setId(uint16_t _ID) {ID = _ID;}$/;"	function	line:41	class:Qbot	signature:(uint16_t _ID)
+getId	/Users/alvaro/DEV_SOFTWARE/Qbots/src/QbotClass.h	/^    uint16_t getId() {return ID;}$/;"	function	line:42	class:Qbot	signature:()
+setOmega	/Users/alvaro/DEV_SOFTWARE/Qbots/src/QbotClass.h	/^    void setOmega(float _omega) {omega = _omega;}$/;"	function	line:44	class:Qbot	signature:(float _omega)
+getOmega	/Users/alvaro/DEV_SOFTWARE/Qbots/src/QbotClass.h	/^    float getOmega() {return omega;}$/;"	function	line:45	class:Qbot	signature:()
+setwaveNumberor	/Users/alvaro/DEV_SOFTWARE/Qbots/src/QbotClass.h	/^    void setwaveNumberor(float _k) {waveNumber = _k;}$/;"	function	line:47	class:Qbot	signature:(float _k)
+getwaveNumberor	/Users/alvaro/DEV_SOFTWARE/Qbots/src/QbotClass.h	/^    float getwaveNumberor() {return waveNumber;}$/;"	function	line:48	class:Qbot	signature:()
+setFactorMotion	/Users/alvaro/DEV_SOFTWARE/Qbots/src/QbotClass.h	/^    void setFactorMotion(float _factor) {factorMotion = _factor;}$/;"	function	line:50	class:Qbot	signature:(float _factor)
+getFactorMotion	/Users/alvaro/DEV_SOFTWARE/Qbots/src/QbotClass.h	/^    float getFactorMotion() {return factorMotion;}$/;"	function	line:51	class:Qbot	signature:()
+setEmissionMode	/Users/alvaro/DEV_SOFTWARE/Qbots/src/QbotClass.h	/^    void setEmissionMode(bool _emission) {emissionMode = _emission;}$/;"	function	line:53	class:Qbot	signature:(bool _emission)
+setMotionState	/Users/alvaro/DEV_SOFTWARE/Qbots/src/QbotClass.h	/^    void setMotionState(bool _motion) {motionState = _motion;}$/;"	function	line:55	class:Qbot	signature:(bool _motion)
+setSynchMode	/Users/alvaro/DEV_SOFTWARE/Qbots/src/QbotClass.h	/^    void setSynchMode(bool _synchMode) {synchMode = _synchMode;}$/;"	function	line:56	class:Qbot	signature:(bool _synchMode)
+setShape	/Users/alvaro/DEV_SOFTWARE/Qbots/src/QbotClass.h	/^    void setShape(ShapeQbot _shape) {shape = _shape;}$/;"	function	line:58	class:Qbot	signature:(ShapeQbot _shape)
+setRadius	/Users/alvaro/DEV_SOFTWARE/Qbots/src/QbotClass.h	/^    void setRadius(float _radius) {radius = _radius;}$/;"	function	line:59	class:Qbot	signature:(float _radius)
+mobileQbot	/Users/alvaro/DEV_SOFTWARE/Qbots/src/QbotClass.h	/^    bool mobileQbot;$/;"	member	line:80	class:Qbot
+synchMode	/Users/alvaro/DEV_SOFTWARE/Qbots/src/QbotClass.h	/^    bool synchMode;$/;"	member	line:81	class:Qbot
+vectorPtrQbots	/Users/alvaro/DEV_SOFTWARE/Qbots/src/QbotClass.h	/^    static vector<Qbot*> vectorPtrQbots; \/\/ the whole array of bots$/;"	member	line:86	class:Qbot
+numQbots	/Users/alvaro/DEV_SOFTWARE/Qbots/src/QbotClass.h	/^    static uint16_t numQbots; \/\/ commodity variable - must ensure it is equal to the output of getNumParticles(), meaning it must be updated when the vectorPtrQbots change size.$/;"	member	line:87	class:Qbot
+getNumParticles	/Users/alvaro/DEV_SOFTWARE/Qbots/src/QbotClass.h	/^    static uint16_t getNumParticles() {return vectorPtrQbots.size();}$/;"	function	line:92	class:Qbot	signature:()
+getIteration	/Users/alvaro/DEV_SOFTWARE/Qbots/src/QbotClass.h	/^    static float getIteration() {return N;}$/;"	function	line:94	class:Qbot	signature:()
+getClock	/Users/alvaro/DEV_SOFTWARE/Qbots/src/QbotClass.h	/^    static float getClock() {return clock;}$/;"	function	line:96	class:Qbot	signature:()
+resetClock	/Users/alvaro/DEV_SOFTWARE/Qbots/src/QbotClass.h	/^    static void resetClock() { clock = 0; }$/;"	function	line:97	class:Qbot	signature:()
+setIncrementTime	/Users/alvaro/DEV_SOFTWARE/Qbots/src/QbotClass.h	/^    static void setIncrementTime(float _timeStep) {timeStep = _timeStep;}$/;"	function	line:98	class:Qbot	signature:(float _timeStep)
+setAllOmega	/Users/alvaro/DEV_SOFTWARE/Qbots/src/QbotClass.h	/^    static void setAllOmega(float _omega) {$/;"	function	line:100	class:Qbot	signature:(float _omega)
+setAllwaveNumberor	/Users/alvaro/DEV_SOFTWARE/Qbots/src/QbotClass.h	/^    static void setAllwaveNumberor(float _k) {$/;"	function	line:106	class:Qbot	signature:(float _k)
+setAllFactorMotion	/Users/alvaro/DEV_SOFTWARE/Qbots/src/QbotClass.h	/^    static void setAllFactorMotion(float _factor) {$/;"	function	line:112	class:Qbot	signature:(float _factor)
+freezeEvolution	/Users/alvaro/DEV_SOFTWARE/Qbots/src/QbotClass.h	/^    static void freezeEvolution() {modeEvolution=false;}$/;"	function	line:127	class:Qbot	signature:()
+resumeEvolution	/Users/alvaro/DEV_SOFTWARE/Qbots/src/QbotClass.h	/^    static void resumeEvolution() {modeEvolution=true;}$/;"	function	line:128	class:Qbot	signature:()
+toogleEvolution	/Users/alvaro/DEV_SOFTWARE/Qbots/src/QbotClass.h	/^    static void toogleEvolution() {modeEvolution=!modeEvolution;}$/;"	function	line:129	class:Qbot	signature:()
+toggleMotionStateAll	/Users/alvaro/DEV_SOFTWARE/Qbots/src/QbotClass.h	/^    static void toggleMotionStateAll() {motionStateAll=!motionStateAll;}$/;"	function	line:131	class:Qbot	signature:()
+toggleModeBots	/Users/alvaro/DEV_SOFTWARE/Qbots/src/QbotClass.h	/^    static void toggleModeBots() {modeBots=!modeBots;}$/;"	function	line:134	class:Qbot	signature:()
+toggleModeLines	/Users/alvaro/DEV_SOFTWARE/Qbots/src/QbotClass.h	/^    static void toggleModeLines() {modeLines=!modeLines;}$/;"	function	line:135	class:Qbot	signature:()
+toggleModeTrajectory	/Users/alvaro/DEV_SOFTWARE/Qbots/src/QbotClass.h	/^    static void toggleModeTrajectory() {modeTrajectory=!modeTrajectory;}$/;"	function	line:136	class:Qbot	signature:()
+toggleModeGradient	/Users/alvaro/DEV_SOFTWARE/Qbots/src/QbotClass.h	/^    static void toggleModeGradient() {modeGradient=!modeGradient;}$/;"	function	line:137	class:Qbot	signature:()
+ID	/Users/alvaro/DEV_SOFTWARE/Qbots/src/QbotClass.h	/^    uint16_t ID;$/;"	member	line:141	class:Qbot
+omega	/Users/alvaro/DEV_SOFTWARE/Qbots/src/QbotClass.h	/^    float omega;$/;"	member	line:144	class:Qbot
+waveNumber	/Users/alvaro/DEV_SOFTWARE/Qbots/src/QbotClass.h	/^    float waveNumber;$/;"	member	line:145	class:Qbot
+timePeriodWave	/Users/alvaro/DEV_SOFTWARE/Qbots/src/QbotClass.h	/^    float timePeriodWave;$/;"	member	line:146	class:Qbot
+speedWave	/Users/alvaro/DEV_SOFTWARE/Qbots/src/QbotClass.h	/^    float speedWave; \/\/ = omega\/waveNumber$/;"	member	line:148	class:Qbot
+dX_Wave	/Users/alvaro/DEV_SOFTWARE/Qbots/src/QbotClass.h	/^    float dX_Wave; \/\/ = speedWave*timeStep;$/;"	member	line:149	class:Qbot
+sqTimeStep	/Users/alvaro/DEV_SOFTWARE/Qbots/src/QbotClass.h	/^    float sqTimeStep;\/\/; = timeStep*timeStep;$/;"	member	line:150	class:Qbot
+sqSpeedWave	/Users/alvaro/DEV_SOFTWARE/Qbots/src/QbotClass.h	/^    float sqSpeedWave;\/\/; = speedWave*speedWave;$/;"	member	line:151	class:Qbot
+maxParticleSpeed	/Users/alvaro/DEV_SOFTWARE/Qbots/src/QbotClass.h	/^    float maxParticleSpeed;\/\/ = MAX_SPEED_FACTOR*speedWave;$/;"	member	line:152	class:Qbot
+sqMaxParticleSpeed	/Users/alvaro/DEV_SOFTWARE/Qbots/src/QbotClass.h	/^    float sqMaxParticleSpeed;\/\/ = maxParticleSpeed* maxParticleSpeed$/;"	member	line:153	class:Qbot
+maxdXParticle	/Users/alvaro/DEV_SOFTWARE/Qbots/src/QbotClass.h	/^    float maxdXParticle;$/;"	member	line:154	class:Qbot
+sqMaxdXParticle	/Users/alvaro/DEV_SOFTWARE/Qbots/src/QbotClass.h	/^    float sqMaxdXParticle;$/;"	member	line:155	class:Qbot
+samplingFreq	/Users/alvaro/DEV_SOFTWARE/Qbots/src/QbotClass.h	/^    float samplingFreq, samplingPeriod;$/;"	member	line:158	class:Qbot
+samplingPeriod	/Users/alvaro/DEV_SOFTWARE/Qbots/src/QbotClass.h	/^    float samplingFreq, samplingPeriod;$/;"	member	line:158	class:Qbot
+samplingOffsetPhaseDeg	/Users/alvaro/DEV_SOFTWARE/Qbots/src/QbotClass.h	/^    float samplingOffsetPhaseDeg, samplingTimeOffset;$/;"	member	line:159	class:Qbot
+samplingTimeOffset	/Users/alvaro/DEV_SOFTWARE/Qbots/src/QbotClass.h	/^    float samplingOffsetPhaseDeg, samplingTimeOffset;$/;"	member	line:159	class:Qbot
+lastTimeSample	/Users/alvaro/DEV_SOFTWARE/Qbots/src/QbotClass.h	/^    float lastTimeSample;$/;"	member	line:160	class:Qbot
+factorMotion	/Users/alvaro/DEV_SOFTWARE/Qbots/src/QbotClass.h	/^    float factorMotion;$/;"	member	line:164	class:Qbot
+mass	/Users/alvaro/DEV_SOFTWARE/Qbots/src/QbotClass.h	/^    float mass;$/;"	member	line:165	class:Qbot
+speed	/Users/alvaro/DEV_SOFTWARE/Qbots/src/QbotClass.h	/^    ofVec2f speed; \/\/ rem: for the time being, simple euler computation (not verlet)$/;"	member	line:166	class:Qbot
+X	/Users/alvaro/DEV_SOFTWARE/Qbots/src/QbotClass.h	/^    ofPolyline X;$/;"	member	line:171	class:Qbot
+offsetPhase	/Users/alvaro/DEV_SOFTWARE/Qbots/src/QbotClass.h	/^    vector<float> offsetPhase; \/\/ we need to store the history of the offset phases too for each particle.$/;"	member	line:172	class:Qbot
+TijN	/Users/alvaro/DEV_SOFTWARE/Qbots/src/QbotClass.h	/^    vector<int32_t> TijN; \/\/ in the future, a float. For now, an integer.$/;"	member	line:176	class:Qbot
+DijN	/Users/alvaro/DEV_SOFTWARE/Qbots/src/QbotClass.h	/^    vector<ofVec2f> DijN; \/\/vector defined by the position of the robot j at time TijN (past time, thetime of intersection of light cone of j with the trajectory of THIS robot "i"), and the position of THIS robot at time N (present). Also with a size equal to numQbots-1.$/;"	member	line:179	class:Qbot
+localField	/Users/alvaro/DEV_SOFTWARE/Qbots/src/QbotClass.h	/^    float localField;$/;"	member	line:184	class:Qbot
+fieldGradient	/Users/alvaro/DEV_SOFTWARE/Qbots/src/QbotClass.h	/^    ofVec2f fieldGradient;$/;"	member	line:185	class:Qbot
+shape	/Users/alvaro/DEV_SOFTWARE/Qbots/src/QbotClass.h	/^    ShapeQbot shape;$/;"	member	line:188	class:Qbot
+radius	/Users/alvaro/DEV_SOFTWARE/Qbots/src/QbotClass.h	/^    float radius;$/;"	member	line:189	class:Qbot
+angleGradient	/Users/alvaro/DEV_SOFTWARE/Qbots/src/QbotClass.h	/^    float angleGradient;$/;"	member	line:190	class:Qbot
+motionState	/Users/alvaro/DEV_SOFTWARE/Qbots/src/QbotClass.h	/^    bool motionState;$/;"	member	line:193	class:Qbot
+emissionMode	/Users/alvaro/DEV_SOFTWARE/Qbots/src/QbotClass.h	/^    bool emissionMode; \/\/ when false, the robot does not emits its own waves.$/;"	member	line:194	class:Qbot
+attenuationMode	/Users/alvaro/DEV_SOFTWARE/Qbots/src/QbotClass.h	/^    bool attenuationMode; \/\/ wave attenuation or not.$/;"	member	line:195	class:Qbot
+indexID	/Users/alvaro/DEV_SOFTWARE/Qbots/src/QbotClass.h	/^    static uint16_t indexID;$/;"	member	line:201	class:Qbot
+maxField	/Users/alvaro/DEV_SOFTWARE/Qbots/src/QbotClass.h	/^    static float maxField, minField;$/;"	member	line:203	class:Qbot
+minField	/Users/alvaro/DEV_SOFTWARE/Qbots/src/QbotClass.h	/^    static float maxField, minField;$/;"	member	line:203	class:Qbot
+modeEvolution	/Users/alvaro/DEV_SOFTWARE/Qbots/src/QbotClass.h	/^    static bool modeEvolution;$/;"	member	line:208	class:Qbot
+clock	/Users/alvaro/DEV_SOFTWARE/Qbots/src/QbotClass.h	/^    static float clock; \/\/ Incremented by timeStep every at every update()$/;"	member	line:209	class:Qbot
+timeStep	/Users/alvaro/DEV_SOFTWARE/Qbots/src/QbotClass.h	/^    static float timeStep; \/\/ artificial time step (the update will be done at constant real time intervals, independent form this)$/;"	member	line:210	class:Qbot
+N	/Users/alvaro/DEV_SOFTWARE/Qbots/src/QbotClass.h	/^    static uint16_t N; \/\/ iteration (clock, if not reset some time later on, is equal to N*timeStep.$/;"	member	line:211	class:Qbot
+motionStateAll	/Users/alvaro/DEV_SOFTWARE/Qbots/src/QbotClass.h	/^    static bool motionStateAll; \/\/ when false, the position is not updated (useful to check the field in a grid).$/;"	member	line:214	class:Qbot
+borderRectangle	/Users/alvaro/DEV_SOFTWARE/Qbots/src/QbotClass.h	/^    static ofRectangle borderRectangle;$/;"	member	line:217	class:Qbot
+modeBots	/Users/alvaro/DEV_SOFTWARE/Qbots/src/QbotClass.h	/^    static bool modeBots;$/;"	member	line:220	class:Qbot
+modeLines	/Users/alvaro/DEV_SOFTWARE/Qbots/src/QbotClass.h	/^    static bool modeLines; \/\/ draw or not the DijN lines$/;"	member	line:221	class:Qbot
+modeTrajectory	/Users/alvaro/DEV_SOFTWARE/Qbots/src/QbotClass.h	/^    static bool modeTrajectory;$/;"	member	line:222	class:Qbot
+modeGradient	/Users/alvaro/DEV_SOFTWARE/Qbots/src/QbotClass.h	/^    static bool modeGradient;$/;"	member	line:223	class:Qbot
